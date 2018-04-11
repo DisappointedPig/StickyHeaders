@@ -267,6 +267,7 @@ public class SectioningAdapter extends RecyclerView.Adapter<SectioningAdapter.Vi
 	 */
 	public GhostHeaderViewHolder onCreateGhostHeaderViewHolder(ViewGroup parent) {
 		View ghostView = new View(parent.getContext());
+		ghostView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 		return new GhostHeaderViewHolder(ghostView);
 	}
 
