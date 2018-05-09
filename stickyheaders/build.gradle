@@ -1,20 +1,22 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.jfrog.bintray'
+//apply plugin: 'com.github.dcendents.android-maven'
+apply from: '../versioning.gradle'
 
-group = 'org.zakariya.stickyheaders'
-version = '0.7.6'
+//group = 'org.zakariya.stickyheaders'
+//version = '0.7.6'
 
 android {
-	compileSdkVersion 25
-	buildToolsVersion "25.0.1"
+	compileSdkVersion 27
+	buildToolsVersion "27.0.3"
 
 	defaultConfig {
-		minSdkVersion 11
-		targetSdkVersion 25
-		versionCode 1
+		minSdkVersion 19
+		targetSdkVersion 27
+		versionCode buildVersionCode()
 		versionName version
 	}
+
 	buildTypes {
 		release {
 			minifyEnabled false
@@ -24,11 +26,16 @@ android {
 }
 
 dependencies {
-	compile fileTree(dir: 'libs', include: ['*.jar'])
-	testCompile 'junit:junit:4.12'
-	compile 'com.android.support:recyclerview-v7:25.0.1'
+	implementation fileTree(dir: 'libs', include: ['*.jar'])
+//	testCompile 'junit:junit:4.12'
+	implementation 'com.android.support:recyclerview-v7:27.1.1'
 }
 
+android.libraryVariants.all { variant ->
+	variant.outputs.all {
+		outputFileName = "stickyheaders-${variant.name}-${android.defaultConfig.versionName}.aar"
+	}
+}
 task generateSourcesJar(type: Jar) {
 	from android.sourceSets.main.java.srcDirs
 	classifier = 'sources'
@@ -55,29 +62,29 @@ def libraryDescription = 'Simple sticky headers implementation for RecyclerView'
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
-bintray {
-	user = properties.getProperty("bintray.user")
-	key = properties.getProperty("bintray.apikey")
-	configurations = ['archives']
-	pkg {
-		repo = 'maven'
-		name = 'sticky-headers'
-
-		desc = libraryDescription
-		websiteUrl = 'https://github.com/ShamylZakariya/StickyHeaders'
-		vcsUrl = 'https://github.com/ShamylZakariya/StickyHeaders.git'
-		licenses = ["MIT"]
-		publish = true
-		publicDownloadNumbers = true
-
-		version {
-			desc = libraryDescription
-			released  = new Date()
-			gpg {
-				sign = true //Determines whether to GPG sign the files. The default is false
-				passphrase = properties.getProperty("bintray.gpg.password")
-				//Optional. The passphrase for GPG signing'
-			}
-		}
-	}
-}
+//bintray {
+//	user = properties.getProperty("bintray.user")
+//	key = properties.getProperty("bintray.apikey")
+//	configurations = ['archives']
+//	pkg {
+//		repo = 'maven'
+//		name = 'sticky-headers'
+//
+//		desc = libraryDescription
+//		websiteUrl = 'https://github.com/ShamylZakariya/StickyHeaders'
+//		vcsUrl = 'https://github.com/ShamylZakariya/StickyHeaders.git'
+//		licenses = ["MIT"]
+//		publish = true
+//		publicDownloadNumbers = true
+//
+//		version {
+//			desc = libraryDescription
+//			released  = new Date()
+//			gpg {
+//				sign = true //Determines whether to GPG sign the files. The default is false
+//				passphrase = properties.getProperty("bintray.gpg.password")
+//				//Optional. The passphrase for GPG signing'
+//			}
+//		}
+//	}
+//}
